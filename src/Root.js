@@ -1,4 +1,4 @@
-import React, {useReducer, useEffect} from 'react';
+import React, {useReducer, useEffect, useState} from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import AsyncStorage from '@react-native-community/async-storage';
 import Signin from './screens/Signin';
@@ -43,19 +43,57 @@ import CreateProfile2 from './screens/CreateProfile2';
 import Female from './screens/Female';
 import Female1 from './screens/Female1';
 import WeeklyReport from './screens/WeeklyReport';
+import auth from '@react-native-firebase/auth';
+import PhoneSignIn from './screens/PhoneSignIn';
+import {ActivityIndicator, View} from 'react-native';
 
-AsyncStorage.removeItem('@aaina_login');
-
+// AsyncStorage.removeItem('@aaina_login');
+// auth()
+//   .signOut()
+//   .then(() => console.log('User signed out!'));
 const Stack = createStackNavigator();
 
 const Root = () => {
+  const [initializing, setInitializing] = useState(true);
+  const [user, setUser] = useState();
+
+  // Handle user state changes
+  function onAuthStateChanged(user) {
+    setUser(user);
+    if (initializing) setInitializing(false);
+  }
+  // Handle user state changes
+  function onAuthStateChanged(user) {
+    setUser(user);
+    if (initializing) setInitializing(false);
+  }
+
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
+  }, []);
+
+  if (initializing)
+    return (
+      <View
+        style={{
+          flexGrow: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <ActivityIndicator size="large" color="red" />
+      </View>
+    );
+  if (!user) {
+    return <PhoneSignIn />;
+  }
   return (
     <>
       <Stack.Navigator
         screenOptions={{
-          header: (props) => <CustomHeader {...props} />,
+          header: props => <CustomHeader {...props} />,
         }}
-        initialRouteName="CreateProfile">
+        initialRouteName="Home">
         <Stack.Screen
           name="EditPage"
           component={EditPage}

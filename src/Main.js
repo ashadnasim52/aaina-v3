@@ -10,6 +10,7 @@ import axios from 'axios';
 import {API} from './utils/Base';
 import {NavigationContainer} from '@react-navigation/native';
 import {navigationRef} from './RootNavigation';
+import {PRIMARY} from './theme/colors';
 const Drawer = createDrawerNavigator();
 
 export default function Main() {
@@ -18,21 +19,15 @@ export default function Main() {
     authInitialState,
   );
 
-  const {
-    isAuthenticated,
-    authChecking,
-    skipAuth,
-    user,
-    profile,
-    role,
-  } = authState;
+  const {isAuthenticated, authChecking, skipAuth, user, profile, role} =
+    authState;
 
   React.useEffect(() => {
     axios.defaults.baseURL = API;
   }, []);
   return (
     <>
-      <StatusBar barStyle="light-content" backgroundColor="#419474"/>
+      <StatusBar barStyle="light-content" backgroundColor={PRIMARY} />
       <AuthContext.Provider value={{state: authState, dispatch: dispatchAuth}}>
         <NavigationContainer ref={navigationRef}>
           <Drawer.Navigator
@@ -44,7 +39,7 @@ export default function Main() {
                 // width: '100%',
               }
             }
-            drawerContent={(props) => <CustomDrawer {...props} />}>
+            drawerContent={props => <CustomDrawer {...props} />}>
             <Drawer.Screen name="Root" component={Root} />
           </Drawer.Navigator>
         </NavigationContainer>

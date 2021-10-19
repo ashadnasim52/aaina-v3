@@ -18,6 +18,7 @@ import {
   Input,
   Button,
   Drawer,
+  Icon,
 } from 'native-base';
 
 import {
@@ -35,7 +36,7 @@ import {
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import Icon from 'react-native-vector-icons/FontAwesome';
+// import Icon from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Feather from 'react-native-vector-icons/Feather';
@@ -70,7 +71,7 @@ import {Layout} from '@ui-kitten/components';
 const CustomHeader = ({navigation}) => {
   const nav = useNavigation();
   const [image, setImage] = React.useState(null);
-    const [isPermission, setIsPermission] = React.useState(false);
+  const [isPermission, setIsPermission] = React.useState(false);
 
   const requestStoragePermission = async () => {
     try {
@@ -94,7 +95,7 @@ const CustomHeader = ({navigation}) => {
 
   const pickImage = async () => {
     if (isPermission) {
-      ImagePicker.showImagePicker(options, (response) => {
+      ImagePicker.showImagePicker(options, response => {
         console.log('Response = ', response);
 
         if (response.didCancel) {
@@ -122,53 +123,53 @@ const CustomHeader = ({navigation}) => {
 
   return (
     <>
-    
-    <Layout style={{backgroundColor: '#14466b'}}>
-      <View
-        style={{
-          backgroundColor: '#fff',
-          height: 60,
-          borderBottomLeftRadius: 20,
-          borderBottomRightRadius: 20,
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          padding: 10,
-        }}>
-        <TouchableOpacity
-          onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}>
-          <Feather name="align-center" style={{fontSize: 30,marginRight:100}} />
-        </TouchableOpacity>
-        <View style={{marginRight:60}}>
-          <Text style={{alignSelf: 'center', color: 'grey'}}>Location</Text>
-          <View style={{flexDirection: 'row'}}>
-            <Entypo
-              name="location-pin"
-              style={{fontSize: 20, color: 'green'}}
-            />
-            <Text style={{fontWeight: 'bold'}}>Priya, </Text>
-            <Text style={{color: 'grey'}}>India</Text>
-          </View>
-        </View>
-        <TouchableOpacity onPress={() => RootNavigation.navigate('EditPage')}>
-        <Image
-         source={{
-          uri: image
-                  ? setImage
-                  : 'https://picsum.photos/id/1005/367/267'
-           
-              }}
+      <Layout style={{backgroundColor: '#14466b'}}>
+        <View
           style={{
-            width: 50,
-            height: 50,
-
-            borderRadius: 50,
-          }}
-        />
-        </TouchableOpacity>
-      </View>
-    </Layout>
-   
+            backgroundColor: '#fff',
+            height: 60,
+            borderBottomLeftRadius: 20,
+            borderBottomRightRadius: 20,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            padding: 10,
+          }}>
+          <TouchableOpacity
+            onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}>
+            <Icon name="menu" style={{fontSize: 30}} />
+          </TouchableOpacity>
+          <View style={{flex: 1}}>
+            <Text style={{alignSelf: 'center', color: 'grey'}}>Location</Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <Entypo
+                name="location-pin"
+                style={{fontSize: 20, color: 'green'}}
+              />
+              <Text style={{fontWeight: 'bold', color: 'grey'}}>Priya, </Text>
+              <Text style={{color: 'grey'}}>India</Text>
+            </View>
+          </View>
+          <TouchableOpacity onPress={() => RootNavigation.navigate('EditPage')}>
+            <Image
+              source={{
+                uri: image ? setImage : 'https://picsum.photos/id/1005/367/267',
+              }}
+              style={{
+                width: 50,
+                height: 50,
+                borderRadius: 50,
+              }}
+            />
+          </TouchableOpacity>
+        </View>
+      </Layout>
     </>
   );
 };
