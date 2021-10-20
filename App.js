@@ -32,7 +32,7 @@ import Main from './src/Main';
  * Use any valid `name` property from eva icons (e.g `github`, or `heart-outline`)
  * https://akveo.github.io/eva-icons
  **/
-const HeartIcon = (props) => <Icon {...props} name="heart" />;
+const HeartIcon = props => <Icon {...props} name="heart" />;
 console.disableYellowBox = true;
 
 export default () => {
@@ -44,7 +44,7 @@ export default () => {
 
   return (
     <>
-      <StatusBar backgroundColor={ACCENT} />
+      <StatusBar backgroundColor={PRIMARY} />
 
       <IconRegistry icons={EvaIconsPack} />
       <ThemeContext.Provider value={{themeee, toggleTheme}}>

@@ -46,6 +46,7 @@ import WeeklyReport from './screens/WeeklyReport';
 import auth from '@react-native-firebase/auth';
 import PhoneSignIn from './screens/PhoneSignIn';
 import {ActivityIndicator, View} from 'react-native';
+import Splash from './screens/Splash';
 
 // AsyncStorage.removeItem('@aaina_login');
 // auth()
@@ -60,12 +61,16 @@ const Root = () => {
   // Handle user state changes
   function onAuthStateChanged(user) {
     setUser(user);
-    if (initializing) setInitializing(false);
+    setTimeout(() => {
+      if (initializing) setInitializing(false);
+    }, 1000);
   }
   // Handle user state changes
   function onAuthStateChanged(user) {
     setUser(user);
-    if (initializing) setInitializing(false);
+    setTimeout(() => {
+      if (initializing) setInitializing(false);
+    }, 1000);
   }
 
   useEffect(() => {
@@ -75,28 +80,38 @@ const Root = () => {
 
   if (initializing)
     return (
-      <View
-        style={{
-          flexGrow: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-        <ActivityIndicator size="large" color="red" />
-      </View>
+      // <View
+      //   style={{
+      //     flexGrow: 1,
+      //     justifyContent: 'center',
+      //     alignItems: 'center',
+      //   }}>
+      //   <ActivityIndicator size="large" color="red" />
+      // </View>
+
+      <Splash />
     );
   if (!user) {
     return <PhoneSignIn />;
   }
+
   return (
     <>
       <Stack.Navigator
         screenOptions={{
           header: props => <CustomHeader {...props} />,
         }}
-        initialRouteName="Home">
+        initialRouteName="Onboarding">
         <Stack.Screen
           name="EditPage"
           component={EditPage}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="PhoneSignIn"
+          component={PhoneSignIn}
           options={{
             headerShown: false,
           }}

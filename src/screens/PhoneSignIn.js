@@ -36,6 +36,7 @@ export const PhoneSignIn = () => {
 
   async function confirmCode() {
     try {
+      console.log('Trying to confirm....');
       await confirm.confirm(code);
     } catch (error) {
       console.warn(error);

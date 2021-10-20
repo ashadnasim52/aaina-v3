@@ -21,6 +21,7 @@ import StepFour from '../assests/img/sizing1.gif';
 import StepFive from '../assests/onboarding/step5.png';
 import {PRIMARY} from '../theme/colors';
 import {useNavigation} from '@react-navigation/native';
+import {PhoneSignIn} from './PhoneSignIn';
 
 const slides = [
   {
@@ -50,14 +51,13 @@ const slides = [
     image: StepFour,
     id: '4',
     backgroundColor: '#12BFC2',
-    
   },
   {
     title: 'You are good to go!',
     text: 'Get ready to witness a completely different trial outlook.',
     image: StepFive,
     id: '5',
-    backgroundColor:'#14466b',
+    backgroundColor: '#14466b',
   },
 ];
 const Onboarding = () => {
@@ -129,9 +129,9 @@ const Onboarding = () => {
                     );
                   }}
                   sliderWidth={Dimensions.get('window').width}
-                  itemWidth={Dimensions.get('window').width-40}
+                  itemWidth={Dimensions.get('window').width - 40}
                   loop={false}
-                  onSnapToItem={(index) => setActiveSlide(index)}
+                  onSnapToItem={index => setActiveSlide(index)}
                   inactiveSlideOpacity={1}
                 />
               </View>
@@ -143,13 +143,13 @@ const Onboarding = () => {
               }}>
               {activeSlide == slides.length - 1 ? (
                 <Button
-                  onPress={() => nav.navigate('Choose')}
+                  onPress={() => nav.replace('PhoneSignIn')}
                   style={{
                     marginVertical: 20,
                     borderRadius: 25,
                     width: '90%',
-                    backgroundColor:"#14466b",
-                    borderColor:"#14466b"
+                    backgroundColor: '#14466b',
+                    borderColor: '#14466b',
                   }}>
                   Get Started Now
                 </Button>
@@ -166,7 +166,7 @@ const Onboarding = () => {
                     height: 10,
                     borderRadius: 5,
                     marginHorizontal: 8,
-                    backgroundColor:"#14466b",
+                    backgroundColor: '#14466b',
                   }}
                   inactiveDotStyle={
                     {
@@ -190,8 +190,8 @@ export default Onboarding;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop:-30,
-    backgroundColor:"white"
+    marginTop: -30,
+    backgroundColor: 'white',
   },
   logoContainer: {
     flex: 0.2,
@@ -214,18 +214,15 @@ const styles = StyleSheet.create({
     height: 290,
     width: '100%',
     resizeMode: 'contain',
-    
-    
-  
   },
   title: {
     color: '#fff',
     textAlign: 'center',
-    marginTop:20
+    marginTop: 20,
   },
   text: {
     color: '#fff',
     textAlign: 'center',
-    marginTop:20
+    marginTop: 20,
   },
 });
