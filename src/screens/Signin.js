@@ -43,7 +43,7 @@ const Signin = ({navigation}) => {
     setSecureTextEntry(!secureTextEntry);
   };
 
-  const renderIcon = (props) => (
+  const renderIcon = props => (
     <TouchableWithoutFeedback onPress={toggleSecureEntry}>
       <Icon {...props} name={secureTextEntry ? 'eye-off' : 'eye'} />
     </TouchableWithoutFeedback>
@@ -163,7 +163,7 @@ const Signin = ({navigation}) => {
                 <TextInput
                   placeholder="Enter your email id"
                   value={email}
-                  onChangeText={(nextValue) => setEmail(nextValue)}
+                  onChangeText={nextValue => setEmail(nextValue)}
                   style={{
                     marginHorizontal: 20,
                     borderWidth: 1,
@@ -180,7 +180,7 @@ const Signin = ({navigation}) => {
                   secureTextEntry={secureTextEntry}
                   value={password}
                   caption="Should contain at least 8 symbols"
-                  onChangeText={(nextValue) => setPassword(nextValue)}
+                  onChangeText={nextValue => setPassword(nextValue)}
                   style={{
                     marginHorizontal: 20,
                     borderWidth: 1,
@@ -339,10 +339,10 @@ const Signin = ({navigation}) => {
                       borderRadius: 5,
                     },
                   ]}
-                  accessoryLeft={(props) => (
+                  accessoryLeft={props => (
                     <Icon name="email-outline" {...props} />
                   )}
-                  onChangeText={(nextValue) => setEmail(nextValue)}
+                  onChangeText={nextValue => setEmail(nextValue)}
                 />
                 <Button
                   style={{}}
@@ -378,7 +378,7 @@ const Signin = ({navigation}) => {
                 <TextInput
                   placeholder="Enter your email id"
                   value={email}
-                  onChangeText={(nextValue) => setEmail(nextValue)}
+                  onChangeText={nextValue => setEmail(nextValue)}
                   style={{
                     marginHorizontal: 20,
                     borderWidth: 1,
@@ -395,7 +395,7 @@ const Signin = ({navigation}) => {
                   secureTextEntry={secureTextEntry}
                   value={password}
                   caption="Should contain at least 8 symbols"
-                  onChangeText={(nextValue) => setPassword(nextValue)}
+                  onChangeText={nextValue => setPassword(nextValue)}
                   style={{
                     marginHorizontal: 20,
                     borderWidth: 1,
@@ -500,10 +500,10 @@ const Signin = ({navigation}) => {
                       borderRadius: 5,
                     },
                   ]}
-                  accessoryLeft={(props) => (
+                  accessoryLeft={props => (
                     <Icon name="email-outline" {...props} />
                   )}
-                  onChangeText={(nextValue) => setEmail(nextValue)}
+                  onChangeText={nextValue => setEmail(nextValue)}
                 />
                 <Button
                   style={{}}

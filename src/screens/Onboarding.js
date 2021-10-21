@@ -143,7 +143,7 @@ const Onboarding = () => {
               }}>
               {activeSlide == slides.length - 1 ? (
                 <Button
-                  onPress={() => nav.replace('PhoneSignIn')}
+                  onPress={() => nav.replace('Home')}
                   style={{
                     marginVertical: 20,
                     borderRadius: 25,

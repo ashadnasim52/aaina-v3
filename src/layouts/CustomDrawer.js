@@ -18,8 +18,8 @@ import auth from '@react-native-firebase/auth';
 
 const CustomDrawer = props => {
   const [image, setImage] = React.useState(null);
-  const {state, dispatch} = useContext(AuthContext);
-  console.log(state.isB2B);
+  // const {state, dispatch} = useContext(AuthContext);
+  // console.log(state.isB2B);
 
   return (
     <>

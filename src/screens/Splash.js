@@ -1,6 +1,6 @@
 import {Text, Layout, Button} from '@ui-kitten/components';
 
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   Dimensions,
   Image,
@@ -21,8 +21,9 @@ import StepFour from '../assests/img/sizing1.gif';
 import StepFive from '../assests/onboarding/step5.png';
 import {PRIMARY} from '../theme/colors';
 import {useNavigation} from '@react-navigation/native';
+import AsyncStorage from '@react-native-community/async-storage';
 
-const Splash = () => {
+const Splash = ({navigation}) => {
   return (
     <Layout style={styles.container}>
       <View style={[styles.logoContainer]}>

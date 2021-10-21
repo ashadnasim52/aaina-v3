@@ -47,8 +47,12 @@ import auth from '@react-native-firebase/auth';
 import PhoneSignIn from './screens/PhoneSignIn';
 import {ActivityIndicator, View} from 'react-native';
 import Splash from './screens/Splash';
+import authReducer from './reducer/authReducer';
+import initialState from './state/authState';
+import {SET_USER} from './actions/action.types';
+import {AuthContext} from './context/context';
 
-// AsyncStorage.removeItem('@aaina_login');
+AsyncStorage.removeItem('@first_time');
 // auth()
 //   .signOut()
 //   .then(() => console.log('User signed out!'));
@@ -57,17 +61,16 @@ const Stack = createStackNavigator();
 const Root = () => {
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState();
+  const [isUserFirstTime, setisUserFirstTime] = useState(false);
+  const [authState, dispatchAuth] = React.useReducer(authReducer, initialState);
 
   // Handle user state changes
   function onAuthStateChanged(user) {
     setUser(user);
-    setTimeout(() => {
-      if (initializing) setInitializing(false);
-    }, 1000);
-  }
-  // Handle user state changes
-  function onAuthStateChanged(user) {
-    setUser(user);
+    dispatchAuth({
+      type: SET_USER,
+      payload: user,
+    });
     setTimeout(() => {
       if (initializing) setInitializing(false);
     }, 1000);
@@ -76,6 +79,22 @@ const Root = () => {
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
     return subscriber; // unsubscribe on unmount
+  }, []);
+
+  const checkFirstTime = async () => {
+    const isFirstTime = await AsyncStorage.getItem('@first_time');
+    console.log({
+      isFirstTime,
+    });
+    if (!isFirstTime) {
+      await AsyncStorage.setItem('@first_time', 'one');
+      setisUserFirstTime(true);
+    } else {
+      setisUserFirstTime(false);
+    }
+  };
+  useEffect(() => {
+    checkFirstTime();
   }, []);
 
   if (initializing)
@@ -96,12 +115,12 @@ const Root = () => {
   }
 
   return (
-    <>
+    <AuthContext.Provider value={{state: authState, dispatch: dispatchAuth}}>
       <Stack.Navigator
         screenOptions={{
           header: props => <CustomHeader {...props} />,
         }}
-        initialRouteName="Onboarding">
+        initialRouteName={isUserFirstTime ? 'Onboarding' : 'Home'}>
         <Stack.Screen
           name="EditPage"
           component={EditPage}
@@ -382,7 +401,7 @@ const Root = () => {
 
         <Stack.Screen name="About" component={About} />
       </Stack.Navigator>
-    </>
+    </AuthContext.Provider>
   );
 };
 

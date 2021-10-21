@@ -38,7 +38,11 @@ const Home = props => {
   //   // company
   //   return <ClientHome />;
   // }
-
+  console.log(state);
+  if (!state?.user?.uid) {
+    props.navigation.replace('PhoneSignIn');
+    return;
+  }
   return (
     <>
       <ScrollView style={{backgroundColor: '#14466b'}}>
