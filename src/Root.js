@@ -1,58 +1,40 @@
 import React, {useReducer, useEffect, useState} from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import AsyncStorage from '@react-native-community/async-storage';
-import Signin from './screens/Signin';
-import Signup from './screens/Signup';
+
 import Onboarding from './screens/Onboarding';
-import Choose from './screens/Choose';
-import ForgetPassword from './screens/ForgetPassword';
-import OPTVerification from './screens/OTPVerification';
-import SelectRole from './screens/SelectRole';
+
 import CreateProfile from './screens/CreateProfile';
 import Home from './screens/Home';
 import HomeB from './screens/HomeB';
 import SignUpOrganization from './screens/SignUpOrganization';
 import CustomHeader from './layouts/CustomHeader';
-import DetailScreen from './screens/DetailScreen';
 import BcPage from './screens/BcPage';
-import Chaudhary_Garments from './screens/Chaudhary_Garments';
 import Benzor from './screens/Benzor';
-import Leather from './screens/Leather';
-import Look from './screens/Look';
-import Glitz from './screens/Glitz';
+
 import B2cpagemain from './screens/B2cpagemain';
 import About from './screens/About';
 import Sizing from './screens/Sizing';
 import Ettire from './screens/Ettire';
 import Sneaky from './screens/Sneaky';
-import Instore from './screens/Instore';
-import Inapp from './screens/Inapp';
-import Inweb from './screens/Inweb';
+
 import Profile from './screens/Profile';
-import Notification from './screens/Notification';
-import Demo from './screens/Demo';
-import BuyPlans from './screens/BuyPlans';
-import MyPlans from './screens/MyPlans';
-import Setting from './screens/Setting';
-import Dress from './screens/Dress';
+
 import Virtual from './screens/Virtual';
 import EditPage from './screens/EditPage';
-import CreatePage from './screens/CreatePage';
-import CreateProfile1 from './screens/Createprofile1';
-import CreateProfile2 from './screens/CreateProfile2';
-import Female from './screens/Female';
-import Female1 from './screens/Female1';
-import WeeklyReport from './screens/WeeklyReport';
+
 import auth from '@react-native-firebase/auth';
 import PhoneSignIn from './screens/PhoneSignIn';
-import {ActivityIndicator, View} from 'react-native';
 import Splash from './screens/Splash';
 import authReducer from './reducer/authReducer';
 import initialState from './state/authState';
 import {SET_USER} from './actions/action.types';
 import {AuthContext} from './context/context';
+import database from '@react-native-firebase/database';
 
-AsyncStorage.removeItem('@first_time');
+let itemsRef = database().ref('/adminNumber');
+
+// AsyncStorage.removeItem('@first_time');
 // auth()
 //   .signOut()
 //   .then(() => console.log('User signed out!'));
@@ -61,11 +43,11 @@ const Stack = createStackNavigator();
 const Root = () => {
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState();
-  const [isUserFirstTime, setisUserFirstTime] = useState(false);
   const [authState, dispatchAuth] = React.useReducer(authReducer, initialState);
-
+  const [adminNumber, setAdminNumber] = useState(null);
   // Handle user state changes
   function onAuthStateChanged(user) {
+    console.log({user});
     setUser(user);
     dispatchAuth({
       type: SET_USER,
@@ -81,20 +63,12 @@ const Root = () => {
     return subscriber; // unsubscribe on unmount
   }, []);
 
-  const checkFirstTime = async () => {
-    const isFirstTime = await AsyncStorage.getItem('@first_time');
-    console.log({
-      isFirstTime,
-    });
-    if (!isFirstTime) {
-      await AsyncStorage.setItem('@first_time', 'one');
-      setisUserFirstTime(true);
-    } else {
-      setisUserFirstTime(false);
-    }
-  };
   useEffect(() => {
-    checkFirstTime();
+
+    // itemsRef.on('value', data => {
+    //   // console.log({data: data.val()});
+    //   setAdminNumber(data.val());
+    // });
   }, []);
 
   if (initializing)
@@ -110,32 +84,52 @@ const Root = () => {
 
       <Splash />
     );
-  if (!user) {
-    return <PhoneSignIn />;
-  }
-
+  // if (!user) {
+  //   return <PhoneSignIn />;
+  // }
+  // if (user?.phoneNumber === adminNumber) {
+  //   return (
+  //     <AuthContext.Provider value={{state: authState, dispatch: dispatchAuth}}>
+  //       <Stack.Navigator
+  //         screenOptions={{
+  //           header: props => <CustomHeader {...props} />,
+  //         }}
+  //         // initialRouteName={isUserFirstTime ? 'Onboarding' : 'Home'}
+  //       >
+  //         <Stack.Screen
+  //           name="Admin"
+  //           component={Admin}
+  //           options={{
+  //             headerShown: false,
+  //           }}
+  //         />
+  //       </Stack.Navigator>
+  //     </AuthContext.Provider>
+  //   );
+  // }
   return (
-    <AuthContext.Provider value={{state: authState, dispatch: dispatchAuth}}>
+    <AuthContext.Provider
+      value={{
+        state: authState,
+        dispatch: dispatchAuth,
+      }}>
       <Stack.Navigator
         screenOptions={{
           header: props => <CustomHeader {...props} />,
-        }}
-        initialRouteName={isUserFirstTime ? 'Onboarding' : 'Home'}>
-        <Stack.Screen
-          name="EditPage"
-          component={EditPage}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="PhoneSignIn"
-          component={PhoneSignIn}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
+        }}>
+        {user ? (
+          <>
+            <Stack.Screen name="Home" component={Home} />
+
+            <Stack.Screen
+              name="EditPage"
+              component={EditPage}
+              options={{
+                headerShown: false,
+              }}
+            />
+
+            {/* <Stack.Screen
           name="CreatePage"
           component={CreatePage}
           options={{
@@ -148,31 +142,31 @@ const Root = () => {
           options={{
             headerShown: false,
           }}
-        />
-        <Stack.Screen
-          name="B2cpagemain"
-          component={B2cpagemain}
-          options={{
-            headerShown: false,
-          }}
-        />
+        /> */}
+            <Stack.Screen
+              name="B2cpagemain"
+              component={B2cpagemain}
+              options={{
+                headerShown: false,
+              }}
+            />
 
-        <Stack.Screen
-          name="SignUpOrganization"
-          component={SignUpOrganization}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
+            <Stack.Screen
+              name="SignUpOrganization"
+              component={SignUpOrganization}
+              options={{
+                headerShown: false,
+              }}
+            />
+            {/* <Stack.Screen
           name="ForgetPassword"
           component={ForgetPassword}
           options={{
             headerShown: false,
           }}
-        />
+        /> */}
 
-        <Stack.Screen
+            {/* <Stack.Screen
           name="OPTVerification"
           component={OPTVerification}
           options={{
@@ -199,52 +193,45 @@ const Root = () => {
           options={{
             headerShown: false,
           }}
-        />
-        <Stack.Screen
+        /> */}
+            {/* <Stack.Screen
           name="SignIn"
           component={Signin}
           options={{
             headerShown: false,
           }}
-        />
-        <Stack.Screen
-          name="Sizing"
-          component={Sizing}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="Ettire"
-          component={Ettire}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="Sneaky"
-          component={Sneaky}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="Onboarding"
-          component={Onboarding}
-          options={{
-            headerShown: false,
-          }}
-        />
+        /> */}
+            <Stack.Screen
+              name="Sizing"
+              component={Sizing}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="Ettire"
+              component={Ettire}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="Sneaky"
+              component={Sneaky}
+              options={{
+                headerShown: false,
+              }}
+            />
 
-        <Stack.Screen
-          name="CreateProfile"
-          component={CreateProfile}
-          options={{
-            headerShown: false,
-          }}
-        />
+            <Stack.Screen
+              name="CreateProfile"
+              component={CreateProfile}
+              options={{
+                headerShown: false,
+              }}
+            />
 
-        <Stack.Screen
+            {/* <Stack.Screen
           name="CreateProfile1"
           component={CreateProfile1}
           options={{
@@ -279,25 +266,25 @@ const Root = () => {
           options={{
             headerShown: false,
           }}
-        />
+        /> */}
 
-        <Stack.Screen
-          name="Virtual"
-          component={Virtual}
-          options={{
-            headerShown: false,
-          }}
-        />
+            <Stack.Screen
+              name="Virtual"
+              component={Virtual}
+              options={{
+                headerShown: false,
+              }}
+            />
 
-        <Stack.Screen
-          name="B2C"
-          component={BcPage}
-          options={{
-            headerShown: false,
-          }}
-        />
+            <Stack.Screen
+              name="B2C"
+              component={BcPage}
+              options={{
+                headerShown: false,
+              }}
+            />
 
-        <Stack.Screen
+            {/* <Stack.Screen
           name="Look"
           component={Look}
           options={
@@ -312,9 +299,9 @@ const Root = () => {
           options={{
             headerShown: false,
           }}
-        />
+        /> */}
 
-        <Stack.Screen
+            {/* <Stack.Screen
           name="DetailScreen"
           component={DetailScreen}
           options={{
@@ -327,15 +314,15 @@ const Root = () => {
           options={{
             headerShown: false,
           }}
-        />
-        <Stack.Screen
-          name="Benzor"
-          component={Benzor}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
+        /> */}
+            <Stack.Screen
+              name="Benzor"
+              component={Benzor}
+              options={{
+                headerShown: false,
+              }}
+            />
+            {/* <Stack.Screen
           name="Leather"
           component={Leather}
           options={{
@@ -363,15 +350,13 @@ const Root = () => {
           options={{
             headerShown: false,
           }}
-        />
+        /> */}
 
-        <Stack.Screen name="Home" component={Home} />
+            {/* <Stack.Screen name="HomeB" component={HomeB} /> */}
 
-        <Stack.Screen name="HomeB" component={HomeB} />
+            {/* <Stack.Screen name="Notifications" component={Notification} /> */}
 
-        <Stack.Screen name="Notifications" component={Notification} />
-
-        <Stack.Screen
+            {/* <Stack.Screen
           name="Demo"
           component={Demo}
           options={{
@@ -385,21 +370,33 @@ const Root = () => {
           options={{
             headerShown: false,
           }}
-        />
+        /> */}
 
-        <Stack.Screen
-          name="Profile"
-          component={Profile}
-          options={{
-            headerShown: false,
-          }}
-        />
+            <Stack.Screen
+              name="Profile"
+              component={Profile}
+              options={{
+                headerShown: false,
+              }}
+            />
 
-        <Stack.Screen name="MyPlans" component={MyPlans} />
+            {/* <Stack.Screen name="MyPlans" component={MyPlans} /> */}
 
-        <Stack.Screen name="Setting" component={Setting} />
+            {/* <Stack.Screen name="Setting" component={Setting} /> */}
 
-        <Stack.Screen name="About" component={About} />
+            <Stack.Screen name="About" component={About} />
+          </>
+        ) : (
+          <>
+            <Stack.Screen
+              name="PhoneSignIn"
+              component={PhoneSignIn}
+              options={{
+                headerShown: false,
+              }}
+            />
+          </>
+        )}
       </Stack.Navigator>
     </AuthContext.Provider>
   );

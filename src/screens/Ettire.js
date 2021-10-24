@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -10,20 +10,39 @@ import {
   BackHandler,
 } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-
+import firestore from '@react-native-firebase/firestore';
 
 export const Ettire = () => {
+  const [sizing, setSizing] = useState(null);
+  const getData = async () => {
+    // (await firestore().collection('about').doc().get()).data()
+    try {
+      const about = await firestore().collection('app').doc('about').get();
+      console.log({about});
+      console.log('about', about.data()?.ourProducts?.Sizing?.Ettire);
+      // setAbout(about.data());
+      setSizing(about.data()?.ourProducts?.Sizing?.Ettire);
+    } catch (error) {
+      console.log({error});
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
   return (
     <SafeAreaView>
-      <ScrollView style={{ backgroundColor: "#14466b" }}>
+      <ScrollView style={{backgroundColor: '#14466b'}}>
         <View>
           <Image
-            source={require('../assests/img/Ettire10.jpg')}
-            style={{ width:"100%", height: 400 }}
+            source={{
+              uri: sizing?.image,
+            }}
+            style={{width: '100%', height: 400}}
           />
           <View
             style={{
-              backgroundColor: "white",
+              backgroundColor: 'white',
               margin: 25,
               borderRadius: 25,
               height: 120,
@@ -36,12 +55,11 @@ export const Ettire = () => {
                 fontWeight: 'bold',
                 fontFamily: 'roboto',
                 margin: 40,
-                textAlign: "center"
+                textAlign: 'center',
               }}>
-              Ettire
+              {sizing?.title}
             </Text>
           </View>
-
 
           <Text
             style={{
@@ -49,24 +67,35 @@ export const Ettire = () => {
               flex: 1,
               fontFamily: 'lucida grande',
               color: '#fff',
-              textAlign: "auto",
-              fontSize: 16
-
-            }}>
-            Generally, conventional trial procedure consumes customer's precious energy and time. One of the prime causes comes out to be the trial room. Customers favor trying out multiple apparels in the trial room. However, compromising with the current trial room scenario wouldn't prove to be a promising sign. When it comes to a well-designed 3D virtual trial room, ETTIRE is no less than a masterpiece.
-         </Text>
-          <Text
-            style={{
-              margin: 10,
-              fontFamily: 'lucida grande',
-              color: '#fff',
-              textAlign: "auto",
+              textAlign: 'auto',
               fontSize: 16,
-              marginTop: 0
-
             }}>
-            From customers accessing the trial room to the outfit selection, ETTIRE propagates customer's desired outcomes.ETTIRE consists of a real-time mechanism that expedites the trial prospects. Thus, if substituted with a conventional trial room, ETTIRE eradicates the flaws arising during the trial.
-         </Text>
+            {sizing?.description}
+          </Text>
+
+          <View style={{marginTop: 20, flex: 1, marginHorizontal: 10}}>
+            {sizing?.points.split(',').map(point => (
+              <View style={{flexDirection: 'row', marginVertical: 3}}>
+                <MaterialCommunityIcons
+                  name="check-all"
+                  size={22}
+                  style={{
+                    color: 'lightgreen',
+                    marginRight: 4,
+                  }}
+                />
+                <Text
+                  style={{
+                    color: 'white',
+                    fontSize: 16,
+                    flex: 1,
+                    flexWrap: 'wrap',
+                  }}>
+                  {point}
+                </Text>
+              </View>
+            ))}
+          </View>
         </View>
       </ScrollView>
     </SafeAreaView>

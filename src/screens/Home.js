@@ -41,7 +41,7 @@ const Home = props => {
   console.log(state);
   if (!state?.user?.uid) {
     props.navigation.replace('PhoneSignIn');
-    return;
+    return null;
   }
   return (
     <>

@@ -1,6 +1,6 @@
 import {Text, Layout, Button} from '@ui-kitten/components';
 
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {
   Dimensions,
   Image,
@@ -22,6 +22,7 @@ import StepFive from '../assests/onboarding/step5.png';
 import {PRIMARY} from '../theme/colors';
 import {useNavigation} from '@react-navigation/native';
 import {PhoneSignIn} from './PhoneSignIn';
+import {AuthContext} from '../context/context';
 
 const slides = [
   {
@@ -60,7 +61,8 @@ const slides = [
     backgroundColor: '#14466b',
   },
 ];
-const Onboarding = () => {
+const Onboarding = ({setisFirstTime}) => {
+  console.log({setisFirstTime});
   const [activeSlide, setActiveSlide] = useState(0);
   const [isDisplayCard, setIsDisplayCard] = useState(false);
   const showCards = () => {
@@ -143,7 +145,13 @@ const Onboarding = () => {
               }}>
               {activeSlide == slides.length - 1 ? (
                 <Button
-                  onPress={() => nav.replace('Home')}
+                  onPress={() => {
+                    try {
+                      setisFirstTime(true);
+                    } catch (err) {
+                      console.log(err);
+                    }
+                  }}
                   style={{
                     marginVertical: 20,
                     borderRadius: 25,

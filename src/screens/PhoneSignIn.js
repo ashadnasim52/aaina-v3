@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {
   Container,
   Text,
@@ -15,10 +15,15 @@ import OTPTextView from 'react-native-otp-textinput';
 import PhoneNumber from '../components/PhoneNumber';
 import {ACCENT, PRIMARY, WHITE} from '../theme/colors';
 import {FONTS} from '../utils/fonts';
+import AsyncStorage from '@react-native-community/async-storage';
+import Onboarding from './Onboarding';
+import Splash from './Splash';
 
 export const PhoneSignIn = () => {
   console.log('Phoern signin');
   const otpInputRef = useRef(null);
+  const [isUserFirstTime, setisUserFirstTime] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   // If null, no SMS has been sent
   const [confirm, setConfirm] = useState(null);
@@ -45,7 +50,37 @@ export const PhoneSignIn = () => {
     }
   }
 
+  const checkFirstTime = async () => {
+    const isFirstTime = await AsyncStorage.getItem('@first_time');
+    console.log({
+      isFirstTime,
+    });
+    if (isFirstTime === null) {
+      await AsyncStorage.setItem('@first_time', 'one');
+      console.log('setting true');
+
+      setisUserFirstTime(true);
+    } else {
+      console.log('setting false');
+
+      setisUserFirstTime(false);
+    }
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    checkFirstTime();
+  }, []);
+
+  if (isLoading) return <Splash />;
+  const setisFirstTime = () => {
+    setisUserFirstTime(false);
+  };
+  if (isUserFirstTime) {
+    return <Onboarding setisFirstTime={setisFirstTime} />;
+  }
   if (!confirm) {
+    console.log({isUserFirstTimeisUserFirstTime: isUserFirstTime});
     return <PhoneNumber signInWithPhoneNumber={signInWithPhoneNumber} />;
   }
 
