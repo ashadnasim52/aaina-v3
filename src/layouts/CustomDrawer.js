@@ -119,7 +119,7 @@ const CustomDrawer = props => {
             <DrawerItem
               label="Body Profile"
               labelStyle={{color: '#fff'}}
-              onPress={() => RootNavigation.navigate('Profile')}
+              onPress={() => RootNavigation.navigate('CreateProfile')}
               icon={({focused, color, size}) => (
                 <Icon style={styles.icon} fill="#fff" name="person-outline" />
               )}

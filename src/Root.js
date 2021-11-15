@@ -31,6 +31,10 @@ import initialState from './state/authState';
 import {SET_USER} from './actions/action.types';
 import {AuthContext} from './context/context';
 import database from '@react-native-firebase/database';
+import Female from './screens/Female';
+import Female1 from './screens/Female1';
+import CreateProfile1 from './screens/Createprofile1';
+import CreateProfile2 from './screens/CreateProfile2';
 
 let itemsRef = database().ref('/adminNumber');
 
@@ -64,7 +68,6 @@ const Root = () => {
   }, []);
 
   useEffect(() => {
-
     // itemsRef.on('value', data => {
     //   // console.log({data: data.val()});
     //   setAdminNumber(data.val());
@@ -120,7 +123,6 @@ const Root = () => {
         {user ? (
           <>
             <Stack.Screen name="Home" component={Home} />
-
             <Stack.Screen
               name="EditPage"
               component={EditPage}
@@ -128,7 +130,6 @@ const Root = () => {
                 headerShown: false,
               }}
             />
-
             {/* <Stack.Screen
           name="CreatePage"
           component={CreatePage}
@@ -150,7 +151,6 @@ const Root = () => {
                 headerShown: false,
               }}
             />
-
             <Stack.Screen
               name="SignUpOrganization"
               component={SignUpOrganization}
@@ -165,7 +165,6 @@ const Root = () => {
             headerShown: false,
           }}
         /> */}
-
             {/* <Stack.Screen
           name="OPTVerification"
           component={OPTVerification}
@@ -222,7 +221,6 @@ const Root = () => {
                 headerShown: false,
               }}
             />
-
             <Stack.Screen
               name="CreateProfile"
               component={CreateProfile}
@@ -230,14 +228,14 @@ const Root = () => {
                 headerShown: false,
               }}
             />
-
-            {/* <Stack.Screen
-          name="CreateProfile1"
-          component={CreateProfile1}
-          options={{
-            headerShown: false,
-          }}
-        />
+            <Stack.Screen
+              name="CreateProfile1"
+              component={CreateProfile1}
+              options={{
+                headerShown: false,
+              }}
+            />
+            {/* 
         <Stack.Screen
           name="WeeklyReport"
           component={WeeklyReport}
@@ -246,28 +244,30 @@ const Root = () => {
           }}
         />
 
-        <Stack.Screen
-          name="CreateProfile2"
-          component={CreateProfile2}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="Female"
-          component={Female}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="Female1"
-          component={Female1}
-          options={{
-            headerShown: false,
-          }}
-        /> */}
-
+        
+       
+        */}
+            <Stack.Screen
+              name="CreateProfile2"
+              component={CreateProfile2}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="Female1"
+              component={Female1}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="Female"
+              component={Female}
+              options={{
+                headerShown: false,
+              }}
+            />
             <Stack.Screen
               name="Virtual"
               component={Virtual}
@@ -275,7 +275,6 @@ const Root = () => {
                 headerShown: false,
               }}
             />
-
             <Stack.Screen
               name="B2C"
               component={BcPage}
@@ -283,7 +282,6 @@ const Root = () => {
                 headerShown: false,
               }}
             />
-
             {/* <Stack.Screen
           name="Look"
           component={Look}
@@ -300,7 +298,6 @@ const Root = () => {
             headerShown: false,
           }}
         /> */}
-
             {/* <Stack.Screen
           name="DetailScreen"
           component={DetailScreen}
@@ -351,11 +348,8 @@ const Root = () => {
             headerShown: false,
           }}
         /> */}
-
             {/* <Stack.Screen name="HomeB" component={HomeB} /> */}
-
             {/* <Stack.Screen name="Notifications" component={Notification} /> */}
-
             {/* <Stack.Screen
           name="Demo"
           component={Demo}
@@ -371,7 +365,6 @@ const Root = () => {
             headerShown: false,
           }}
         /> */}
-
             <Stack.Screen
               name="Profile"
               component={Profile}
@@ -379,11 +372,8 @@ const Root = () => {
                 headerShown: false,
               }}
             />
-
             {/* <Stack.Screen name="MyPlans" component={MyPlans} /> */}
-
             {/* <Stack.Screen name="Setting" component={Setting} /> */}
-
             <Stack.Screen name="About" component={About} />
           </>
         ) : (

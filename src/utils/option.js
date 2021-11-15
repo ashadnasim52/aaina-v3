@@ -1,9 +1,7 @@
 // options for the image picker
 
 export const options = {
-  title: 'Select Avatar',
-  storageOptions: {
-    skipBackup: true,
-    path: 'images',
-  },
+  mediaType: 'photo',
+  includeBase64: true,
+  selectionLimit: 1,
 };
